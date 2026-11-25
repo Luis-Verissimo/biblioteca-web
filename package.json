@@ -1,0 +1,9 @@
+{
+  "name": "biblioteca",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "api",
+    "frontend"
+  ]
+}
