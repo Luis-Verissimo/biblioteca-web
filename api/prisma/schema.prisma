@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Autor {
+  id            Int      @id @default(autoincrement())
+  nome          String
+  nacionalidade String
+  criadoEm      DateTime @default(now()) @map("criado_em")
+  atualizadoEm  DateTime @updatedAt @map("atualizado_em")
+  livros        Livro[]
+
+  @@map("autores")
+}
+
+model Livro {
+  id           Int          @id @default(autoincrement())
+  titulo       String
+  isbn         String       @unique
+  ano          Int
+  autorId      Int          @map("autor_id")
+  criadoEm     DateTime     @default(now()) @map("criado_em")
+  atualizadoEm DateTime     @updatedAt @map("atualizado_em")
+
+  autor        Autor        @relation(fields: [autorId], references: [id], onDelete: Cascade)
+  emprestimos  Emprestimo[]
+
+  @@map("livros")
+}
+
+model Leitor {
+  id           Int          @id @default(autoincrement())
+  nome         String
+  email        String       @unique
+  telefone     String
+  criadoEm     DateTime     @default(now()) @map("criado_em")
+  atualizadoEm DateTime     @updatedAt @map("atualizado_em")
+  emprestimos  Emprestimo[]
+
+  @@map("leitores")
+}
+
+model Emprestimo {
+  id             Int      @id @default(autoincrement())
+  dataEmprestimo String   @map("data_emprestimo")
+  dataDevolucao  String   @map("data_devolucao")
+  livroId        Int      @map("livro_id")
+  leitorId       Int      @map("leitor_id")
+  criadoEm       DateTime @default(now()) @map("criado_em")
+  atualizadoEm   DateTime @updatedAt @map("atualizado_em")
+
+  livro          Livro    @relation(fields: [livroId], references: [id], onDelete: Cascade)
+  leitor         Leitor   @relation(fields: [leitorId], references: [id], onDelete: Cascade)
+
+  @@map("emprestimos")
+}
+
+model Usuario {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  email        String   @unique
+  senha        String
+  criadoEm     DateTime @default(now()) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @map("atualizado_em")
+
+  @@map("usuarios")
+}
