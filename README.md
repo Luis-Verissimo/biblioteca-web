@@ -1,6 +1,6 @@
 # Biblioteca
 
-Vídeo: LINK_DO_VIDEO
+Vídeo: https://youtu.be/6mjFVe71lzg
 
 ## Integrante
 
